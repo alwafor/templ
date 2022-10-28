@@ -1,11 +1,11 @@
-Hello!
+Hel@!REPLACE_MElo!
 Another line!
 
-Hello once more!
+Hello once@!REPLACE_ME more!
 
 Who are you?
-
+@!REPLACE_ME@!REPLACE_ME@!REPLACE_ME
 What about me?
+@!REPLACE_ME
 
-
-I'm still here!
+I'm still he@!REPLACE_MEre!

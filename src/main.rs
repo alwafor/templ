@@ -4,17 +4,22 @@ use std::{
   env::{self, current_exe},
   fs,
   io::Error,
-  path::{Path, PathBuf},
+  path::Path,
 };
 
 fn main() {
   let arguments = get_cli_arguments();
-  let file_text = get_file_text(&arguments[0]);
-  println!("{}", file_text.unwrap());
+  let mut file_text = get_file_text(&arguments[0]).unwrap();
+  let processed_text = replace_tokens(&mut file_text, &arguments[1], &arguments[2]);
+  println!("{}", processed_text);
+}
+
+fn replace_tokens(file_text: &mut String, pattern: &String, replace_text: &String) -> String {
+  file_text.replace(pattern, replace_text)
 }
 
 fn get_cli_arguments() -> Vec<String> {
-  let args: Vec<String> = env::args().collect();
+  let args: Vec<String> = env::args().map(|x| x.replace("\"", "")).collect();
   args.get(1).unwrap_or_else(|| {
     panic!("Error! Arguments are not present!");
   });
