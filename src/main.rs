@@ -1,25 +1,24 @@
 use colored::Colorize;
 
 use std::{
-  env,
-  fs::File,
-  io::{BufRead, BufReader, Error},
+  env, fs,
+  io::Error,
+  path::{Path, PathBuf},
 };
+
 fn main() {
   let args: Vec<String> = env::args().collect();
-  let result = get_file_text(args.get(1).unwrap_or(&"text.txt".to_owned()));
+  args.get(1).unwrap_or_else(|| {
+    panic!("Error! Arguments are not present!");
+  });
+
+  let path_buf = Path::new(&args[0]).join(&"..").join(&args[1]);
+  let result = get_file_text(&path_buf);
   println!("{}", result.unwrap());
 }
 
-fn get_file_text(path: &String) -> Result<String, Error> {
-  let mut input = File::open(path)?;
-  let buffered = BufReader::new(input);
+fn get_file_text(path: &PathBuf) -> Result<String, Error> {
+  let data = fs::read_to_string(path)?;
 
-  let mut text_data = String::from("");
-  for line in buffered.lines() {
-    text_data.push_str(&line?);
-    text_data.push_str("\n")
-  }
-
-  Ok(text_data)
+  Ok(data)
 }
